@@ -15,7 +15,7 @@
 
 - name: "Configure Node | Create node directory structure"
   file:
-    path: "/opt/cardano/cnode/{{ item }}"
+    path: "{{ cardano_install_dir }}/{{ item }}"
     state: directory
     owner: "{{ server_username }}"
     group: "{{ server_username }}"
@@ -30,7 +30,15 @@
 - name: "Configure Node | Copy scripts directory for node c/w all files"
   copy:
     src: cardano-scripts/
-    dest: "/opt/cardano/cnode/scripts"
+    dest: "{{ cardano_scripts_dir }}"
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0704
+
+- name: "Cardano Node | Copy startup template to scripts directory"
+  template:
+    src: "{{ role_path }}/templates/start-node.j2"
+    dest: "{{ cardano_scripts_dir }}/start-node.sh.j2"
     owner: "{{ server_username }}"
     group: "{{ server_username }}"
     mode: 0704
@@ -60,6 +68,27 @@
     minute: '21'
     hour: '2'
     job: ". $HOME/.bashrc; /opt/cardano/cnode/scripts/cardano-cleanup.sh"
+
+- name: "Configure Node | Download config file"
+  get_url:
+    url: "{{ cardano_shelly_test_config }}"
+    dest: "{{ cardano_config_dir }}"/config.json
+  become_user: "{{ server_username }}"
+  become: true
+
+- name: "Configure Node | Download genesis file"
+  get_url:
+    url: "{{ cardano_shelly_test_genesis }}"
+    dest: "{{ cardano_config_dir }}"/genesis.json
+  become_user: "{{ server_username }}"
+  become: true
+
+- name: "Configure Node | Download topology file"
+  get_url:
+    url: "{{ cardano_shelly_test_topology }}"
+    dest: "{{ cardano_config_dir }}"/topology.json
+  become_user: "{{ server_username }}"
+  become: true
 
 - name: "Configure Node | Create consul service file"
   copy: src=cardano.service dest=/lib/systemd/system/cardano.service mode=u=rw,g=r,o= owner=root group=root
