@@ -1,6 +1,6 @@
 galaxy_info:
   author: Sion Smith
-  role_name: cardano-node
+  role_name: cardano_node
   description: "Role to install and configure Cardano"
   company: "OSO DevOps"
   license: MIT
