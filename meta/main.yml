@@ -10,10 +10,10 @@ galaxy_info:
       versions:
         - all
   galaxy_tags:
-    - Cardano
-    - Linux
-    - Amazon
-    - ADA
+    - cardano
+    - linux
+    - amazon
+    - ada
     - systemd
     - development
     - system

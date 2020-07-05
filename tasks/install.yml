@@ -100,16 +100,6 @@
   become_user: "{{ server_username }}"
   become: yes
 
-- name: "Cardano Node | Install Libsodium from IOHK source"
-  git:
-    repo: "{{ libsodium_github_url }}"
-    dest: /home/{{ server_username }}/libsodium
-    clone: yes
-    version: "{{ libsodium_version_tag }}"
-    accept_hostkey: yes
-  become_user: "{{ server_username }}"
-  become: yes
-
 #### TODO: REMOVE THIS: Dependencies https://github.com/input-output-hk/cardano-node/blob/master/README.md#dependencies
 - name: "Cardano Node | Create cabal.project.local at toplevel"
   template:
