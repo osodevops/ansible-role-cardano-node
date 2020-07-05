@@ -19,7 +19,7 @@
     state: directory
     owner: "{{ server_username }}"
     group: "{{ server_username }}"
-    mode: 0544
+    mode: 0744
   with_items:
     - configuration
     - db
