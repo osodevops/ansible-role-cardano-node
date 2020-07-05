@@ -1,0 +1,134 @@
+---
+- name: "Server Setup | Set timezone to Europe/London"
+  timezone:
+    name: Europe/London
+
+- name: "Server Setup | Set hostname of installer to static value"
+  command: "hostnamectl set-hostname {{ server_hostname }} --static"
+  become: true
+
+- name: "Server Setup | Make sure we have a 'wheel' group"
+  group:
+    name: wheel
+    state: present
+
+- name: "Server Setup | Allow 'wheel' group to have passwordless sudo"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: "Server Setup | Add sudoers users to wheel group"
+  user: name={{ server_username }} groups=wheel append=yes state=present createhome=yes
+
+- name: "Server Setup | Create .ssh directory for {{ server_username }} user"
+  file:
+    path: "/home/{{ server_username }}/.ssh"
+    state: directory
+    mode: 0700
+    owner: "{{ server_username }}"
+
+- name: "Server Setup | Create .local/bin directory for {{ server_username }} user"
+  file:
+    path: "/home/{{ server_username }}/.local/bin"
+    state: directory
+    mode: 0700
+    owner: "{{ server_username }}"
+
+- name: "Package Install | Install Yum Dependencies"
+  yum:
+    name: ['git', 'gcc', 'gcc-c++', 'gmp-devel', 'make', 'tar', 'wget', 'zlib-devel', 'jq', 'systemd-devel', 'ncurses-devel', 'ncurses-compat-libs', 'libsodium-devel']
+    state: latest
+  become: true
+
+- name: "Package Install | Upgrade all packages"
+  yum:
+    name: '*'
+    state: latest
+  become: true
+
+- name: "Package Install | Download Cabal {{ cabal_install_version }}"
+  unarchive:
+    src: "{{ cabal_install_url }}"
+    dest: /usr/bin
+    remote_src: yes
+  become: true
+
+- name: "Package Install | Add local bin dir to system-wide $PATH."
+  copy:
+    dest: /etc/profile.d/custom-path.sh
+    content: 'PATH=$PATH:/home/{{ server_username }}/.local/bin'
+
+- name: "Package Install | Update Cabal in {{ server_username }} home directory"
+  shell: |
+    cabal update
+  become_user: "{{ server_username }}"
+  become: true
+
+- name: "Package Install | Download GHC {{ ghc_install_version }}"
+  unarchive:
+    src: "{{ ghc_install_url }}"
+    dest: /home/{{ server_username }}
+    remote_src: yes
+  become_user: "{{ server_username }}"
+  become: true
+
+- name: "Package Install | Configure, build GHC {{ ghc_install_version }}"
+  shell: |
+    cd /home/{{ server_username }}/ghc-{{ ghc_install_version }}
+    ./configure
+    sudo make install
+  become: true
+
+- name: "Package Install | Create Symlink to GHC binary"
+  file:
+    src: "/usr/local/bin/ghc-{{ ghc_install_version }}"
+    dest: "/usr/bin/ghc"
+    state: link
+    force: yes
+
+- name: "Cardano Node | Git checkout Cardano source"
+  git:
+    repo: "{{ cardano_github_url }}"
+    dest: /home/{{ server_username }}/cardano-node
+    clone: yes
+    version: "{{ cardano_version_tag }}"
+    accept_hostkey: yes
+  register: repo_download
+  become_user: "{{ server_username }}"
+  become: yes
+
+- name: "Cardano Node | Install Libsodium from IOHK source"
+  git:
+    repo: "{{ libsodium_github_url }}"
+    dest: /home/{{ server_username }}/libsodium
+    clone: yes
+    version: "{{ libsodium_version_tag }}"
+    accept_hostkey: yes
+  become_user: "{{ server_username }}"
+  become: yes
+
+#### TODO: REMOVE THIS: Dependencies https://github.com/input-output-hk/cardano-node/blob/master/README.md#dependencies
+- name: "Cardano Node | Create cabal.project.local at toplevel"
+  template:
+    src: "{{ role_path }}/templates/cabal.project.local.j2"
+    dest: "/home/{{ server_username }}/cardano-node/cabal.project.local"
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0644
+
+- name: "Cardano Node | Build and install the node"
+  shell: cd /home/{{ server_username }}/cardano-node && cabal install cardano-node cardano-cli
+  become_user: "{{ server_username }}"
+  become: yes
+
+- name: "Cardano Node | Move binaries to /usr/bin for systemd control"
+  shell: |
+    cd /home/{{ server_username }}/.cabal/bin
+    CLI_BINARY_PATH=$(readlink -f cardano-cli)
+    NODE_BINARY_PATH=$(readlink -f cardano-node)
+    mv $CLI_BINARY_PATH /usr/bin/
+    mv $NODE_BINARY_PATH /usr/bin/
+  become: yes

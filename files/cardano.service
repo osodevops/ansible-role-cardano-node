@@ -1,0 +1,23 @@
+[Unit]
+Description=Cardano Node
+Documentation=https://github.com/osodevops/aws-terraform-module-cardano-stake-pool
+After=network-online.target firewalld.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+ExecStart=/opt/cardano/cnode/scripts/start-node.sh
+PIDFile=/run/cardano/%i.pid
+ExecReload=/bin/kill -HUP $MAINPID
+CapabilityBoundingSet=CAP_IPC_LOCK
+User=cardano
+Group=cardano
+ProtectHome=true
+KillMode=process
+Restart=on-failure
+StartLimitBurst=3
+StartLimitInterval=60s
+
+[Install]
+WantedBy=multi-user.target

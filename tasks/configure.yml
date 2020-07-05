@@ -1,0 +1,91 @@
+---
+- name: "Configure Node | Create environment file for {{ server_username }}"
+  copy:
+    src: env_vars.sh
+    dest: "/home/{{ server_username }}/env_vars.sh"
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0644
+
+- name: "Configure Node | Add environment file to .bashrc"
+  lineinfile:
+    dest=/home/{{ server_username }}/.bashrc
+    line="source /home/{{ server_username }}/env_vars.sh"
+    owner={{ server_username }}
+
+- name: "Configure Node | Create node directory structure"
+  file:
+    path: "/opt/cardano/cnode/{{ item }}"
+    state: directory
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0544
+  with_items:
+    - configuration
+    - db
+    - logs
+    - scripts
+    - socket
+
+- name: "Configure Node | Copy scripts directory for node c/w all files"
+  copy:
+    src: cardano-scripts/
+    dest: "/opt/cardano/cnode/scripts"
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0704
+
+- name: "Configure Node | Ensure Cardano backup to S3 log file for {{ server_username }} user exists"
+  copy:
+    content: ""
+    dest: /var/log/last-cardano-backup-to-s3.log
+    force: no
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0644
+
+- name: "Configure Node | Create cronjob to run Cardano to S3 backup script every day at 0301AM"
+  cron:
+    name: Cardano to S3 backup
+    user: "{{ server_username }}"
+    minute: '1'
+    hour: '3'
+    job: ". $HOME/.bashrc; /opt/cardano/cnode/scripts/cardano-backup.sh"
+
+- name: "Configure Node | Create cronjob to run Cardano to cleanup every 3 days at 0221AM"
+  cron:
+    name: Cardano cleanup
+    user: "{{ server_username }}"
+    day: '*/3'
+    minute: '21'
+    hour: '2'
+    job: ". $HOME/.bashrc; /opt/cardano/cnode/scripts/cardano-cleanup.sh"
+
+- name: "Configure Node | Create consul service file"
+  copy: src=cardano.service dest=/lib/systemd/system/cardano.service mode=u=rw,g=r,o= owner=root group=root
+
+- name: "Configure Node | Ensure Cardano service does not start and bootstrap"
+  systemd:
+    name: cardano.service
+    state: stopped
+    enabled: no
+
+- name: "Configure Node | Set DNS Resolver Options"
+  blockinfile:
+    path: /etc/sysconfig/network
+    block: |
+      RES_OPTIONS="rotate timeout:1 attempts:1"
+
+- name: "Configure Node | Secure sshd_config"
+  lineinfile: dest=/etc/ssh/sshd_config
+    regexp="^PermitRootLogin"
+    line="PermitRootLogin no"
+    state=present
+- lineinfile: dest=/etc/ssh/sshd_config
+    regexp="^PasswordAuthentication"
+    line="PasswordAuthentication no"
+    state=present
+- lineinfile: dest=/etc/ssh/sshd_config
+    regexp="^X11Forwarding"
+    line="X11Forwarding no"
+    state=present
