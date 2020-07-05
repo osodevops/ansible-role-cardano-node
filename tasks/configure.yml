@@ -37,8 +37,8 @@
 
 - name: "Cardano Node | Copy startup template to scripts directory"
   template:
-    src: "{{ role_path }}/templates/start-node.j2"
-    dest: "{{ cardano_scripts_dir }}/start-node.sh.j2"
+    src: "{{ role_path }}/templates/start-node.sh.j2"
+    dest: "{{ cardano_scripts_dir }}/start-node.sh"
     owner: "{{ server_username }}"
     group: "{{ server_username }}"
     mode: 0704
