@@ -6,7 +6,7 @@ on:
       - 'master'
 
 jobs:
-  build_push_jupyter_image:
+  tag_publish_ansible_role:
     runs-on: ubuntu-latest
     name: Build the jupyter image, push to ECR
     steps:
