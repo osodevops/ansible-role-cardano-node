@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: '0'
 
-      - name: Bump version and push tag
+      - name: Bump version and push repo tag
         id: tagging
         uses: anothrNick/github-tag-action@master
         env:
