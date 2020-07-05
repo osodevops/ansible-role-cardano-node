@@ -25,6 +25,6 @@ jobs:
           INITIAL_VERSION: 1.0.0
 
       - name: Publish role
-          uses: robertdebock/galaxy-action@1.0.3
-          with:
-            galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
+        uses: robertdebock/galaxy-action@1.0.3
+        with:
+          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
