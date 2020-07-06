@@ -5,6 +5,6 @@ cardano-node run \
   --topology {{ cardano_config_dir }}/{{ cardano_topology_filename }}.json \
   --config {{ cardano_config_dir }}/{{ cardano_config_filename }} \
   --database-path {{ cardano_install_dir }}/db \
-  --socket-path {{ cardano_install_dir }}/socket/{{ cardano_node_type }} \
+  --socket-path {{ cardano_install_dir }}/db/node.socket \
   --host-addr 0.0.0.0 \
   --port {{ cardano_default_port }} \

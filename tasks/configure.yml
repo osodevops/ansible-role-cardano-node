@@ -25,7 +25,6 @@
     - db
     - logs
     - scripts
-    - socket
 
 - name: "Configure Node | Copy scripts directory for node c/w all files"
   copy:
