@@ -72,21 +72,21 @@
 - name: "Configure Node | Download config file"
   get_url:
     url: "{{ cardano_shelly_test_config }}"
-    dest: "{{ cardano_config_dir }}/config.json"
+    dest: "{{ cardano_config_dir }}/{{ cardano_config_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
 - name: "Configure Node | Download genesis file"
   get_url:
     url: "{{ cardano_shelly_test_genesis }}"
-    dest: "{{ cardano_config_dir }}/genesis.json"
+    dest: "{{ cardano_config_dir }}/{{ cardano_genesis_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
 - name: "Configure Node | Download topology file"
   get_url:
     url: "{{ cardano_shelly_test_topology }}"
-    dest: "{{ cardano_config_dir }}/topology.json"
+    dest: "{{ cardano_config_dir }}/{{ cardano_topology_filename }}"
   become_user: "{{ server_username }}"
   become: true
 

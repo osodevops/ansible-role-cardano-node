@@ -24,7 +24,11 @@ cardano_version_tag: "tags/1.14.2"
 cardano_install_dir: "/opt/cardano/cnode"
 cardano_config_dir: "{{ cardano_install_dir }}/configuration"
 cardano_scripts_dir: "{{ cardano_install_dir }}/scripts"
+cardano_config_filename: "shelley_testnet-config.json"
+cardano_genesis_filename: "shelley_testnet-genesis.json"
+cardano_topology_filename: "shelley_testnet-topology.json"
 cardano_default_port: "3000" # Amend if running relay and producer on same box
+cardano_node_type: "relay"
 
 # Shelly Testnet Configuration
 cardano_shelly_test_config: "https://hydra.iohk.io/build/3246637/download/1/shelley_testnet-config.json"
