@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+CNODE_HOME={{ cardano_install_dir }}
+NODE_SOCKET_PATH=$CNODE_HOME/sockets/node0.socket
+export CARDANO_NODE_SOCKET_PATH=$CNODE_HOME/db/node.socket
+export CONFIG_JSON={ cardano_config_dir }}/{{ cardano_config_filename }}
+export GENESIS_JSON={{ cardano_config_dir }}/{{ cardano_genesis_filename }}
+export TOPOLOGY_JSON={{ cardano_config_dir }}/{{ cardano_topology_filename }}
+MAGIC=$(jq -r .protocolMagicId < $GENESIS_JSON)
+NWMAGIC=$(jq -r .networkMagic < $GENESIS_JSON)
+export NODE_TYPE=@TYPE@ #replace this with correct value are run time
+export NODE_PORT=@PORT@ #replace this with correct value are run time

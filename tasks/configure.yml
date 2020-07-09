@@ -1,7 +1,7 @@
 ---
 - name: "Configure Node | Create environment file for {{ server_username }}"
-  copy:
-    src: env_vars.sh
+  template:
+    src: "{{ role_path }}/templates/env_vars.sh.j2"
     dest: "/home/{{ server_username }}/env_vars.sh"
     owner: "{{ server_username }}"
     group: "{{ server_username }}"
@@ -10,7 +10,7 @@
 - name: "Configure Node | Add environment file to .bashrc"
   lineinfile:
     dest=/home/{{ server_username }}/.bashrc
-    line="source /home/{{ server_username }}/env_vars.sh"
+    line="source /home/{{ server_username }}/env_vars.sh.j2"
     owner={{ server_username }}
 
 - name: "Configure Node | Create node directory structure"
