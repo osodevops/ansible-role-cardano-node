@@ -8,7 +8,7 @@ on:
 jobs:
   tag_publish_ansible_role:
     runs-on: ubuntu-latest
-    name: Build the jupyter image, push to ECR
+    name: Publish role to Ansible Galaxy
     steps:
       - name: Checkout
         uses: actions/checkout@v2
