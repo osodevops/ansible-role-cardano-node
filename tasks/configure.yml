@@ -13,7 +13,7 @@
     line="{{ item }}"
     owner={{ server_username }}
   with_items:
-    - "source /home/{{ server_username }}/env_vars.sh.j2"
+    - "source /home/{{ server_username }}/env_vars.sh"
     - "source {{ cardano_scripts_dir }}/common.sh"
 
 - name: "Configure Node | Create node directory structure"
