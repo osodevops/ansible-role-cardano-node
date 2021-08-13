@@ -47,26 +47,40 @@
 
 - name: "Configure Node | Download config file"
   get_url:
-    url: "{{ cardano_shelly_test_config }}"
+    url: "{{ cardano_config_download_path }}/{{ cardano_config_filename }}"
     dest: "{{ cardano_config_dir }}/{{ cardano_config_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Download genesis file"
+- name: "Configure Node | Download shelley genesis file"
   get_url:
-    url: "{{ cardano_shelly_test_genesis }}"
-    dest: "{{ cardano_config_dir }}/{{ cardano_genesis_filename }}"
+    url: "{{ cardano_config_download_path }}/{{ cardano_shelley_genesis_filename }}"
+    dest: "{{ cardano_config_dir }}/{{ cardano_shelley_genesis_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Download topology file"
+- name: "Configure Node | Download byron genesis file"
   get_url:
-    url: "{{ cardano_shelly_test_topology }}"
+    url: "{{ cardano_config_download_path }}/{{ cardano_byron_genesis_filename }}"
+    dest: "{{ cardano_config_dir }}/{{ cardano_byron_genesis_filename }}"
+  become_user: "{{ server_username }}"
+  become: true
+
+- name: "Configure Node | Download alonzo genesis file"
+  get_url:
+    url: "{{ cardano_config_download_path }}/{{ cardano_alonzo_genesis_filename }}"
+    dest: "{{ cardano_config_dir }}/{{ cardano_alonzo_genesis_filename }}"
+  become_user: "{{ server_username }}"
+  become: true
+
+- name: "Configure Node | Download default topology file"
+  get_url:
+    url: "{{ cardano_config_download_path }}/{{ cardano_topology_filename }}"
     dest: "{{ cardano_config_dir }}/{{ cardano_topology_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Create consul service file"
+- name: "Configure Node | Create systemd service file"
   copy: src=cardano.service dest=/lib/systemd/system/cardano.service mode=u=rw,g=r,o= owner=root group=root
 
 - name: "Configure Node | Ensure Cardano service does not start and bootstrap"

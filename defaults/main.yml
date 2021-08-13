@@ -25,14 +25,16 @@ cardano_install_dir: "/opt/cardano/cnode"
 cardamo_cli_path: "cardano-cli"
 cardano_config_dir: "{{ cardano_install_dir }}/configuration"
 cardano_scripts_dir: "{{ cardano_install_dir }}/scripts"
-cardano_config_filename: "shelley_testnet-config.json"
-cardano_genesis_filename: "shelley_testnet-genesis.json"
-cardano_topology_filename: "shelley_testnet-topology.json"
 cardano_default_port: "3000" # Amend if running relay and producer on same box
-cardano_node_type: "relay"
 
-# Shelly Testnet Configuration
-cardano_shelly_test_config: "https://hydra.iohk.io/build/3246637/download/1/shelley_testnet-config.json"
-cardano_shelly_test_genesis: "https://hydra.iohk.io/build/3246637/download/1/shelley_testnet-genesis.json"
-cardano_shelly_test_topology: "https://hydra.iohk.io/build/3246637/download/1/shelley_testnet-topology.json"
+# Configuration files: testnet
+cardano_config_filename: "testnet-config.json"
+cardano_shelley_genesis_filename: "testnet-shelley-genesis.json"
+cardano_byron_genesis_filename: "testnet-byron-genesis.json"
+cardano_alonzo_genesis_filename: "testnet-alonzo-genesis.json"
+cardano_topology_filename: "testnet-topology.json"
 cardano_magic_prefix: "--testnet-magic"
+cardano_magic_number: "1097911063"
+
+# Configuration sources
+cardano_config_download_path: "https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1"
