@@ -7,7 +7,4 @@ export CONFIG_JSON={{ cardano_config_dir }}/{{ cardano_testnet_topology_filename
 # Currently hardcoded to shelley
 export GENESIS_JSON={{ cardano_config_dir }}/{{ cardano_shelley_genesis_filename }}
 export TOPOLOGY_JSON={{ cardano_config_dir }}/{{ cardano_topology_filename }}
-MAGIC=$(jq -r .protocolMagicId < $GENESIS_JSON)
-NWMAGIC=$(jq -r .networkMagic < $GENESIS_JSON)
-export NODE_TYPE=@TYPE@ #replace this with correct value are run time
-export NODE_PORT=@PORT@ #replace this with correct value are run time
+MAGIC={{ cardano_magic_number }}
