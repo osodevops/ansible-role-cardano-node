@@ -73,6 +73,13 @@
   become_user: "{{ server_username }}"
   become: true
 
+- name: "Configure Node | Add protocol magic to shelley genesis file"
+  lineinfile:
+    dest: "{{ cardano_config_dir }}/{{ cardano_shelley_genesis_filename }}"
+    insertafter: "\"networkMagic\""
+    line: "  \"protocolMagicId\": {{ cardano_magic_number }}"
+    state: present
+
 - name: "Configure Node | Download default topology file"
   get_url:
     url: "{{ cardano_config_download_path }}/{{ cardano_topology_filename }}"
