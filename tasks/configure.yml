@@ -45,32 +45,6 @@
     group: "{{ server_username }}"
     mode: 0704
 
-- name: "Configure Node | Ensure Cardano backup to S3 log file for {{ server_username }} user exists"
-  copy:
-    content: ""
-    dest: /var/log/last-cardano-backup-to-s3.log
-    force: no
-    owner: "{{ server_username }}"
-    group: "{{ server_username }}"
-    mode: 0644
-
-- name: "Configure Node | Create cronjob to run Cardano to S3 backup script every day at 0301AM"
-  cron:
-    name: Cardano to S3 backup
-    user: "{{ server_username }}"
-    minute: '1'
-    hour: '3'
-    job: ". $HOME/.bashrc; {{ cardano_scripts_dir }}/cardano-backup.sh"
-
-- name: "Configure Node | Create cronjob to run Cardano to cleanup every 3 days at 0221AM"
-  cron:
-    name: Cardano cleanup
-    user: "{{ server_username }}"
-    day: '*/3'
-    minute: '21'
-    hour: '2'
-    job: ". $HOME/.bashrc; {{ cardano_scripts_dir }}/cardano-cleanup.sh"
-
 - name: "Configure Node | Download config file"
   get_url:
     url: "{{ cardano_shelly_test_config }}"
