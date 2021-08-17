@@ -45,49 +45,54 @@
     group: "{{ server_username }}"
     mode: 0704
 
+- name: "Configure Node | Ensure Cardano backup to S3 log file for {{ server_username }} user exists"
+  copy:
+    content: ""
+    dest: /var/log/last-cardano-backup-to-s3.log
+    force: no
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0644
+
+- name: "Configure Node | Create cronjob to run Cardano to S3 backup script every day at 0301AM"
+  cron:
+    name: Cardano to S3 backup
+    user: "{{ server_username }}"
+    minute: '1'
+    hour: '3'
+    job: ". $HOME/.bashrc; {{ cardano_scripts_dir }}/cardano-backup.sh"
+
+- name: "Configure Node | Create cronjob to run Cardano to cleanup every 3 days at 0221AM"
+  cron:
+    name: Cardano cleanup
+    user: "{{ server_username }}"
+    day: '*/3'
+    minute: '21'
+    hour: '2'
+    job: ". $HOME/.bashrc; {{ cardano_scripts_dir }}/cardano-cleanup.sh"
+
 - name: "Configure Node | Download config file"
   get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_config_filename }}"
+    url: "{{ cardano_shelly_test_config }}"
     dest: "{{ cardano_config_dir }}/{{ cardano_config_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Download shelley genesis file"
+- name: "Configure Node | Download genesis file"
   get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_shelley_genesis_filename }}"
-    dest: "{{ cardano_config_dir }}/{{ cardano_shelley_genesis_filename }}"
+    url: "{{ cardano_shelly_test_genesis }}"
+    dest: "{{ cardano_config_dir }}/{{ cardano_genesis_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Download byron genesis file"
+- name: "Configure Node | Download topology file"
   get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_byron_genesis_filename }}"
-    dest: "{{ cardano_config_dir }}/{{ cardano_byron_genesis_filename }}"
-  become_user: "{{ server_username }}"
-  become: true
-
-- name: "Configure Node | Download alonzo genesis file"
-  get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_alonzo_genesis_filename }}"
-    dest: "{{ cardano_config_dir }}/{{ cardano_alonzo_genesis_filename }}"
-  become_user: "{{ server_username }}"
-  become: true
-
-- name: "Configure Node | Add protocol magic to shelley genesis file"
-  lineinfile:
-    dest: "{{ cardano_config_dir }}/{{ cardano_shelley_genesis_filename }}"
-    insertafter: "\"networkMagic\""
-    line: "  \"protocolMagicId\": {{ cardano_magic_number }}"
-    state: present
-
-- name: "Configure Node | Download default topology file"
-  get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_topology_filename }}"
+    url: "{{ cardano_shelly_test_topology }}"
     dest: "{{ cardano_config_dir }}/{{ cardano_topology_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Create systemd service file"
+- name: "Configure Node | Create consul service file"
   copy: src=cardano.service dest=/lib/systemd/system/cardano.service mode=u=rw,g=r,o= owner=root group=root
 
 - name: "Configure Node | Ensure Cardano service does not start and bootstrap"
