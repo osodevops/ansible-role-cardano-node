@@ -7,6 +7,13 @@
     group: "{{ server_username }}"
     mode: 0644
 
+- name: "Get Guild Operators env file for gLiveView"
+  get_url:
+    url: "{{ guild_operators_env_url }}"
+    dest: "/home/{{ server_username }}/env"
+  become_user: "{{ server_username }}"
+  become: true
+
 - name: "Configure Node | Add environment file to .bashrc"
   lineinfile:
     dest=/home/{{ server_username }}/.bashrc
@@ -49,6 +56,14 @@
   copy:
     src: cardano-scripts/
     dest: "{{ cardano_scripts_dir }}"
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0704
+
+- name: "Get Guild Operators gLiveView.sh utility"
+  get_url:
+    url: "{{ guild_operators_gliveview_url }}"
+    dest: "{{ cardano_scripts_dir }}/gLiveView.sh"
     owner: "{{ server_username }}"
     group: "{{ server_username }}"
     mode: 0704

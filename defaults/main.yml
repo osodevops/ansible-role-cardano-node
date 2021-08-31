@@ -50,3 +50,5 @@ cardano_mainnet_magic_number: "1097911063"
 
 # Configuration sources
 cardano_config_download_path: "https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1"
+guild_operators_env_url: "https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/env"
+guild_operators_gliveview_url: "https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh"
