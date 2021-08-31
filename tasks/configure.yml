@@ -63,43 +63,36 @@
 
 - name: "Configure Node | Download config file"
   get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_config_filename }}"
-    dest: "{{ cardano_config_dir }}/{{ cardano_config_filename }}"
+    url: "{{ cardano_config_download_path }}/{{ cardano_testnet_config_filename }}"
+    dest: "{{ cardano_config_dir }}/{{ cardano_testnet_config_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
 - name: "Configure Node | Download shelley genesis file"
   get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_shelley_genesis_filename }}"
-    dest: "{{ cardano_config_dir }}/{{ cardano_shelley_genesis_filename }}"
+    url: "{{ cardano_config_download_path }}/{{ cardano_testnet_shelley_genesis_filename }}"
+    dest: "{{ cardano_config_dir }}/{{ cardano_testnet_shelley_genesis_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
 - name: "Configure Node | Download byron genesis file"
   get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_byron_genesis_filename }}"
-    dest: "{{ cardano_config_dir }}/{{ cardano_byron_genesis_filename }}"
+    url: "{{ cardano_config_download_path }}/{{ cardano_testnet_byron_genesis_filename }}"
+    dest: "{{ cardano_config_dir }}/{{ cardano_testnet_byron_genesis_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
 - name: "Configure Node | Download alonzo genesis file"
   get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_alonzo_genesis_filename }}"
-    dest: "{{ cardano_config_dir }}/{{ cardano_alonzo_genesis_filename }}"
+    url: "{{ cardano_config_download_path }}/{{ cardano_testnet_alonzo_genesis_filename }}"
+    dest: "{{ cardano_config_dir }}/{{ cardano_testnet_alonzo_genesis_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Add protocol magic to shelley genesis file"
-  lineinfile:
-    dest: "{{ cardano_config_dir }}/{{ cardano_shelley_genesis_filename }}"
-    insertafter: "\"networkMagic\""
-    line: "  \"protocolMagicId\": {{ cardano_magic_number }}"
-    state: present
-
 - name: "Configure Node | Download default topology file"
   get_url:
-    url: "{{ cardano_config_download_path }}/{{ cardano_topology_filename }}"
-    dest: "{{ cardano_config_dir }}/{{ cardano_topology_filename }}"
+    url: "{{ cardano_config_download_path }}/{{ cardano_testnet_topology_filename }}"
+    dest: "{{ cardano_config_dir }}/{{ cardano_testnet_topology_filename }}"
   become_user: "{{ server_username }}"
   become: true
 

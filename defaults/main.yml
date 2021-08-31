@@ -31,13 +31,22 @@ cardano_keys_dir: "{{ cardano_install_dir }}/keys"
 cardano_pool_keys_dir: "{{ cardano_install_dir }}/pool-keys"
 
 # Configuration files: testnet
-cardano_config_filename: "testnet-config.json"
-cardano_shelley_genesis_filename: "testnet-shelley-genesis.json"
-cardano_byron_genesis_filename: "testnet-byron-genesis.json"
-cardano_alonzo_genesis_filename: "testnet-alonzo-genesis.json"
-cardano_topology_filename: "testnet-topology.json"
-cardano_magic_prefix: "--testnet-magic"
-cardano_magic_number: "1097911063"
+cardano_testnet_config_filename: "testnet-config.json"
+cardano_testnet_shelley_genesis_filename: "testnet-shelley-genesis.json"
+cardano_testnet_byron_genesis_filename: "testnet-byron-genesis.json"
+cardano_testnet_alonzo_genesis_filename: "testnet-alonzo-genesis.json"
+cardano_testnet_topology_filename: "testnet-topology.json"
+cardano_testnet_magic_prefix: "--testnet-magic"
+cardano_testnet_magic_number: "1097911063"
+
+# Configuration files: mainnet
+cardano_mainnet_config_filename: "mainnet-config.json"
+cardano_mainnet_shelley_genesis_filename: "mainnet-shelley-genesis.json"
+cardano_mainnet_byron_genesis_filename: "mainnet-byron-genesis.json"
+cardano_mainnet_alonzo_genesis_filename: "mainnet-alonzo-genesis.json"
+cardano_mainnet_topology_filename: "mainnet-topology.json"
+cardano_mainnet_magic_prefix: "--mainnet-magic"
+cardano_mainnet_magic_number: "1097911063"
 
 # Configuration sources
 cardano_config_download_path: "https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1"
