@@ -94,7 +94,7 @@
     repo: "{{ cardano_github_url }}"
     dest: /home/{{ server_username }}/cardano-node
     clone: yes
-    version: "{{ cardano_version_tag }}"
+    version: "{{ cardano_version }}"
     accept_hostkey: yes
   register: repo_download
   become_user: "{{ server_username }}"
