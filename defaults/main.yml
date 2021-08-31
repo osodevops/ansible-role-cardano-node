@@ -11,7 +11,6 @@ cabal_base_url: "https://downloads.haskell.org"
 cabal_install_url: "{{ cabal_base_url }}/~cabal/cabal-install-{{ cabal_install_version }}/cabal-install-{{ cabal_install_version }}-x86_64-unknown-linux.tar.xz"
 
 # GHC
-# ghc_install_version: 9.0.1
 ghc_install_version: 8.10.4
 ghc_install_url: "https://downloads.haskell.org/~ghc/{{ ghc_install_version }}/ghc-{{ ghc_install_version }}-x86_64-deb9-linux.tar.xz"
 

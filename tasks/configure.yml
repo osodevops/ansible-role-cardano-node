@@ -90,14 +90,14 @@
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Download byron genesis file"
+- name: "Configure Node | Download config file"
   get_url:
     url: "{{ cardano_config_download_path }}/{{ cardano_testnet_byron_genesis_filename }}"
     dest: "{{ cardano_config_dir }}/{{ cardano_testnet_byron_genesis_filename }}"
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Download alonzo genesis file"
+- name: "Configure Node | Download genesis file"
   get_url:
     url: "{{ cardano_config_download_path }}/{{ cardano_testnet_alonzo_genesis_filename }}"
     dest: "{{ cardano_config_dir }}/{{ cardano_testnet_alonzo_genesis_filename }}"
@@ -111,7 +111,7 @@
   become_user: "{{ server_username }}"
   become: true
 
-- name: "Configure Node | Create systemd service file"
+- name: "Configure Node | Create consul service file"
   copy: src=cardano.service dest=/lib/systemd/system/cardano.service mode=u=rw,g=r,o= owner=root group=root
 
 - name: "Configure Node | Ensure Cardano service does not start and bootstrap"
