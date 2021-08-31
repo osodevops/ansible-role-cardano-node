@@ -29,6 +29,22 @@
     - logs
     - scripts
 
+- name: "Create private keys directory"
+  file:
+    path: "{{ cardano_keys_dir }}"
+    state: directory
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0700
+
+- name: "Create private pool keys directory"
+  file:
+    path: "{{ cardano_pool_keys_dir }}"
+    state: directory
+    owner: "{{ server_username }}"
+    group: "{{ server_username }}"
+    mode: 0700
+
 - name: "Configure Node | Copy scripts directory for node c/w all files"
   copy:
     src: cardano-scripts/

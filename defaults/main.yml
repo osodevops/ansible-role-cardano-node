@@ -27,6 +27,8 @@ cardamo_cli_path: "cardano-cli"
 cardano_config_dir: "{{ cardano_install_dir }}/configuration"
 cardano_scripts_dir: "{{ cardano_install_dir }}/scripts"
 cardano_default_port: "3001" # Amend if running relay and producer on same box
+cardano_keys_dir: "{{ cardano_install_dir }}/keys"
+cardano_pool_keys_dir: "{{ cardano_install_dir }}/pool-keys"
 
 # Configuration files: testnet
 cardano_config_filename: "testnet-config.json"
