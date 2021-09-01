@@ -11,7 +11,7 @@ cabal_base_url: "https://downloads.haskell.org"
 cabal_install_url: "{{ cabal_base_url }}/~cabal/cabal-install-{{ cabal_install_version }}/cabal-install-{{ cabal_install_version }}-x86_64-unknown-linux.tar.xz"
 
 # GHC
-ghc_install_version: 8.6.5
+ghc_install_version: 8.10.4
 ghc_install_url: "https://downloads.haskell.org/~ghc/{{ ghc_install_version }}/ghc-{{ ghc_install_version }}-x86_64-deb9-linux.tar.xz"
 
 # Libsodium
@@ -20,19 +20,34 @@ libsodium_version_tag:  "66f017f1"
 
 # Cardano
 cardano_github_url: "https://github.com/input-output-hk/cardano-node.git"
-cardano_version_tag: "tags/1.14.2"
+cardano_version: "1.27.0"
 cardano_install_dir: "/opt/cardano/cnode"
 cardamo_cli_path: "cardano-cli"
 cardano_config_dir: "{{ cardano_install_dir }}/configuration"
 cardano_scripts_dir: "{{ cardano_install_dir }}/scripts"
-cardano_config_filename: "shelley_testnet-config.json"
-cardano_genesis_filename: "shelley_testnet-genesis.json"
-cardano_topology_filename: "shelley_testnet-topology.json"
-cardano_default_port: "3000" # Amend if running relay and producer on same box
-cardano_node_type: "relay"
+cardano_default_port: "3001" # Amend if running relay and producer on same box
+cardano_keys_dir: "{{ cardano_install_dir }}/keys"
+cardano_pool_keys_dir: "{{ cardano_install_dir }}/pool-keys"
 
-# Shelly Testnet Configuration
-cardano_shelly_test_config: "https://hydra.iohk.io/build/3246637/download/1/shelley_testnet-config.json"
-cardano_shelly_test_genesis: "https://hydra.iohk.io/build/3246637/download/1/shelley_testnet-genesis.json"
-cardano_shelly_test_topology: "https://hydra.iohk.io/build/3246637/download/1/shelley_testnet-topology.json"
-cardano_magic_prefix: "--testnet-magic"
+# Configuration files: testnet
+cardano_testnet_config_filename: "testnet-config.json"
+cardano_testnet_shelley_genesis_filename: "testnet-shelley-genesis.json"
+cardano_testnet_byron_genesis_filename: "testnet-byron-genesis.json"
+cardano_testnet_alonzo_genesis_filename: "testnet-alonzo-genesis.json"
+cardano_testnet_topology_filename: "testnet-topology.json"
+cardano_testnet_magic_prefix: "--testnet-magic"
+cardano_testnet_magic_number: "1097911063"
+
+# Configuration files: mainnet
+cardano_mainnet_config_filename: "mainnet-config.json"
+cardano_mainnet_shelley_genesis_filename: "mainnet-shelley-genesis.json"
+cardano_mainnet_byron_genesis_filename: "mainnet-byron-genesis.json"
+cardano_mainnet_alonzo_genesis_filename: "mainnet-alonzo-genesis.json"
+cardano_mainnet_topology_filename: "mainnet-topology.json"
+cardano_mainnet_magic_prefix: "--mainnet-magic"
+cardano_mainnet_magic_number: "1097911063"
+
+# Configuration sources
+cardano_config_download_path: "https://hydra.iohk.io/job/Cardano/cardano-node/cardano-deployment/latest-finished/download/1"
+guild_operators_env_url: "https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/env"
+guild_operators_gliveview_url: "https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/gLiveView.sh"

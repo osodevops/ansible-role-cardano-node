@@ -37,6 +37,12 @@
     mode: 0700
     owner: "{{ server_username }}"
 
+- name: "Package Install | Install EPEL"
+  yum:
+    name: ['https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm']
+    state: latest
+  become: true
+
 - name: "Package Install | Install Yum Dependencies"
   yum:
     name: ['git', 'gcc', 'gcc-c++', 'gmp-devel', 'make', 'tar', 'wget', 'zlib-devel', 'jq', 'systemd-devel', 'ncurses-devel', 'ncurses-compat-libs', 'libsodium-devel']
@@ -94,7 +100,7 @@
     repo: "{{ cardano_github_url }}"
     dest: /home/{{ server_username }}/cardano-node
     clone: yes
-    version: "{{ cardano_version_tag }}"
+    version: "{{ cardano_version }}"
     accept_hostkey: yes
   register: repo_download
   become_user: "{{ server_username }}"

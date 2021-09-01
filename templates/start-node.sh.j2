@@ -2,8 +2,8 @@
 # Environment variables are populated at runtime in /home/cardano/env_vars.sh
 
 cardano-node run \
-  --topology {{ cardano_config_dir }}/{{ cardano_topology_filename }} \
-  --config {{ cardano_config_dir }}/{{ cardano_config_filename }} \
+  --topology {{ cardano_config_dir }}/{{ cardano_testnet_topology_filename }} \
+  --config {{ cardano_config_dir }}/{{ cardano_testnet_config_filename }} \
   --database-path {{ cardano_install_dir }}/db \
   --socket-path {{ cardano_install_dir }}/db/node.socket \
   --host-addr 0.0.0.0 \

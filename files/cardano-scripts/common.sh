@@ -3,7 +3,7 @@
 
 #Subroutines to calculate current slotHeight(tip)
 get_currentTip() {
-local currentTip=$(${CARDANO_CLI} shelley query tip ${MAGIC_PARAM} ${MAGIC} | grep -oP 'unSlotNo = \K\d+')
+local currentTip=$(${CARDANO_CLI} query tip ${MAGIC_PARAM} ${MAGIC} | grep -oP 'unSlotNo = \K\d+')
 echo ${currentTip}
 }
 

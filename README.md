@@ -30,7 +30,7 @@ The following variables are also availble with defaults:
     
     # Cardano
     cardano_github_url: "https://github.com/input-output-hk/cardano-node.git"
-    cardano_version_tag: "tags/1.14.2"
+    cardano_version: "1.14.2"
     cardano_install_dir: "/opt/cardano/cnode"
     cardano_config_dir: "{{ cardano_install_dir }}/configuration"
     cardano_scripts_dir: "{{ cardano_install_dir }}/scripts"
@@ -53,7 +53,7 @@ None.
       gather_facts: yes
       vars:
         # Cordano build tag
-        cardano_version_tag: "tags/1.14.2"
+        cardano_version: "1.14.2"
       roles:
         - role: sionsmith.cardano_node
     
