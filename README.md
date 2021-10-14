@@ -36,11 +36,11 @@ Ansible role to install Cardano binaries from source. This is a best practice gu
 
 ## Usage
 
-## Requirements
+### Requirements
 
 None.
 
-## Role Variables
+### Role Variables
 
 The following variables are also availble with defaults:
 ```yaml
@@ -76,7 +76,7 @@ The following variables are also availble with defaults:
     cardano_shelly_test_topology: "https://hydra.iohk.io/build/3246637/download/1/shelley_testnet-topology.json"
 ```
 
-## Dependencies
+### Dependencies
 
 None.
 
