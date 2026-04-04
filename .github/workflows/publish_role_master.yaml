@@ -11,13 +11,13 @@ jobs:
     name: Publish role to Ansible Galaxy
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: '0'
 
       - name: Bump version and push repo tag
         id: tagging
-        uses: anothrNick/github-tag-action@master
+        uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8 # v1.75.0
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_ORG_REPO_TAG }}
           DEFAULT_BUMP: patch
@@ -25,6 +25,6 @@ jobs:
           INITIAL_VERSION: 1.0.0
 
       - name: Publish role
-        uses: robertdebock/galaxy-action@1.0.3
+        uses: robertdebock/galaxy-action@7d89099e09f4385ec4b53eb58c0d120f1ad806dd # v1.2.1
         with:
           galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
