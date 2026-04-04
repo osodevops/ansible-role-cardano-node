@@ -4,9 +4,16 @@ on:
     types: [opened, synchronize]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   auto-format:
     runs-on: ubuntu-latest
+    # SECURITY: Only run on PRs from the same repo, never from forks.
+    # Forks + pull_request_target = secret exfiltration risk (see CVE-2025-30066, Trivy incident).
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     container: osodevops/build-harness:latest
     steps:
       # Checkout the pull request branch
@@ -16,7 +23,7 @@ jobs:
       # However, using a personal access token will cause events to be triggered.
       # We need that to ensure a status gets posted after the auto-format commit.
       # We also want to trigger tests if the auto-format made no changes.
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         if: github.event.pull_request.state == 'open'
         name: Privileged Checkout
         with:
